@@ -2,27 +2,44 @@
 
 namespace App\Helpers;
 
+use App\Models\Menu;
+
 class MenuHelper
 {
     public static function getMainNavItems(): array
     {
-        return [
-            [
-                'icon' => 'dashboard',
-                'name' => 'Dashboard',
-                'path' => route('dashboard'),
-            ],
-            [
-                'icon' => 'bars',
-                'name' => 'Menu',
-                'path' => route('menu'),
-            ],
-            [
-                'icon' => 'user',
-                'name' => 'User',
-                'path' => route('user.index'),
-            ],
-        ];
+        // return [
+        //     [
+        //         'icon' => 'dashboard',
+        //         'name' => 'Dashboard',
+        //         'path' => route('dashboard'),
+        //     ],
+        //     [
+        //         'icon' => 'bars',
+        //         'name' => 'Menu',
+        //         'path' => route('menu'),
+        //     ],
+        //     [
+        //         'icon' => 'user',
+        //         'name' => 'User',
+        //         'path' => route('user.index'),
+        //     ],
+        // ];
+
+        $menus = Menu::orderBy('order')->get();
+        $navItems = [];
+        foreach ($menus as $menu) {
+            $navItems[] = [
+                'icon' => $menu->icon,
+                'name' => $menu->name,
+                'path' => $menu->route,
+                // 'path' => $menu->route ? route($menu->route) : '#',
+            ];
+        }
+
+
+
+        return $navItems;
     }
 
     public static function getOthersItems(): array
@@ -90,10 +107,10 @@ class MenuHelper
 
             'email' => '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M3.5 8.187V17.25C3.5 17.6642 3.83579 18 4.25 18H19.75C20.1642 18 20.5 17.6642 20.5 17.25V8.18747L13.2873 13.2171C12.5141 13.7563 11.4866 13.7563 10.7134 13.2171L3.5 8.187ZM20.5 6.2286C20.5 6.23039 20.5 6.23218 20.5 6.23398V6.24336C20.4976 6.31753 20.4604 6.38643 20.3992 6.42905L12.4293 11.9867C12.1716 12.1664 11.8291 12.1664 11.5713 11.9867L3.60116 6.42885C3.538 6.38481 3.50035 6.31268 3.50032 6.23568C3.50028 6.10553 3.60577 6 3.73592 6H20.2644C20.3922 6 20.4963 6.10171 20.5 6.2286ZM22 6.25648V17.25C22 18.4926 20.9926 19.5 19.75 19.5H4.25C3.00736 19.5 2 18.4926 2 17.25V6.23398C2 6.22371 2.00021 6.2135 2.00061 6.20333C2.01781 5.25971 2.78812 4.5 3.73592 4.5H20.2644C21.2229 4.5 22 5.27697 22.0001 6.23549C22.0001 6.24249 22.0001 6.24949 22 6.25648Z" fill="currentColor"></path></svg>',
 
-            'user' =>'<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            'user' => '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
             </svg>',
-            
+
             'bars' => '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
             </svg>'
